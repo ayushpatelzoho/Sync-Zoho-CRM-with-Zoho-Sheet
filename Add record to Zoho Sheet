@@ -1,0 +1,42 @@
+void automation.syncWithSheets(Int leadId)
+{
+// 
+leadRecord = zoho.crm.getRecordById("Leads",leadId);
+// info leadRecord ;
+dataList = List();
+// 
+rowData = Map();
+rowData.put("Lead ID",leadId);
+rowData.put("Full Name",leadRecord.get("Full_Name"));
+rowData.put("Company",leadRecord.get("Company"));
+rowData.put("Email",leadRecord.get("Email"));
+rowData.put("Phone",leadRecord.get("Phone"));
+rowData.put("Created Time",leadRecord.get("Created_Time"));
+rowData.put("Lead Status",leadRecord.get("Lead_Status"));
+dataList.add(rowData);
+// info dataList ;
+// 
+resourceId = "9vsuu3b3c9a08be20420d8527d0b6705d6cca";
+// 
+paramMap = Map();
+paramMap.put('method','worksheet.records.add');
+paramMap.put('header_row',1);
+paramMap.put('json_data',dataList);
+// 
+paramMap.put('worksheet_name','Lead');
+// 
+response = invokeurl
+[
+	url :"https://sheet.zoho.in/api/v2/" + resourceId
+	type :POST
+	parameters:paramMap
+	connection:"zohosheet"
+];
+info response;
+// 
+if(response.containKey("status") && response.get("status") == "success")
+{
+	info "Data row added successfully.";
+}
+//
+}
