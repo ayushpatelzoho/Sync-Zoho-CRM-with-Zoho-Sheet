@@ -1,0 +1,44 @@
+void automation.updateZohoSheet(Int leadId)
+{
+leadRecord = zoho.crm.getRecordById("Leads",leadId);
+// info leadRecord ;
+// 
+rowData = Map();
+rowData.put("Lead ID",leadId);
+rowData.put("Full Name",leadRecord.get("Full_Name"));
+// rowData.put("Last Name", leadRecord.get("Last_Name"));
+rowData.put("Company",leadRecord.get("Company"));
+rowData.put("Email",leadRecord.get("Email"));
+rowData.put("Phone",leadRecord.get("Phone"));
+rowData.put("Created Time",leadRecord.get("Created_Time"));
+rowData.put("Lead Status",leadRecord.get("Lead_Status"));
+// info rowData ;
+// 
+resourceId = "9vsuu3b3c9a08be20420d8527d0b6705d6cca";
+// 
+paramMap = Map();
+paramMap.put('method','worksheet.records.update');
+paramMap.put('header_row',1);
+paramMap.put('worksheet_name','Lead');
+// 
+criteriaStr = "\"" + "Lead ID" + "\" = " + leadId.toString();
+paramMap.put('criteria',criteriaStr);
+paramMap.put('is_case_sensitive',true);
+paramMap.put('data',rowData);
+// info paramMap ;
+// 
+response = invokeurl
+[
+	url :"https://sheet.zoho.in/api/v2/" + resourceId
+	type :POST
+	parameters:paramMap
+	connection:"zohosheet"
+];
+// info response;
+// 
+if(response.containKey("status") && response.get("status") == "success")
+{
+	info "Data row updated successfully.";
+}
+//
+}
