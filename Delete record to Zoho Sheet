@@ -1,0 +1,26 @@
+void automation.deleteZohoSheetRec(Int leadId)
+{
+paramMap = Map();
+paramMap.put('method','worksheet.records.delete');
+paramMap.put('worksheet_name','Lead');
+paramMap.put('header_row',1);
+criteriaStr = "\"" + "Lead ID" + "\" = " + leadId.toString();
+paramMap.put('criteria',criteriaStr);
+paramMap.put('row_array','[1,2,3,4,5,6,7]');
+paramMap.put('delete_rows',true);
+resourceId = "9vsuu3b3c9a08be20420d8527d0b6705d6cca";
+// 
+response = invokeurl
+[
+	url :"https://sheet.zoho.in/api/v2/" + resourceId
+	type :POST
+	parameters:paramMap
+	connection:"sheets"
+];
+// info response;
+if(response.containKey("status") && response.get("status") == "success")
+{
+	info "Data row deleted successfully.";
+}
+//
+}
