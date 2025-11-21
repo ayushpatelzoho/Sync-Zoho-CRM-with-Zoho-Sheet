@@ -1,0 +1,19 @@
+string standalone.addColumns()
+{
+// ADD COLUMN NAME IN THE WORKSHEET
+paramMap = Map();
+paramMap.put('method','records.columns.insert');
+// paramMap.put('insert_column_after', 'Region');
+paramMap.put('column_names','["Lead","Full Name", "Company", "Email", "Phone", "Lead Status", "Created Time"]');
+// 
+resourceId = "9vsuu3b3c9a08be20420d8527d0b6705d6cca";
+response = invokeurl
+[
+	url :"https://sheet.zoho.in/api/v2/" + resourceId
+	type :POST
+	parameters:paramMap
+	connection:"zohosheet"
+];
+info response;
+return "";
+}
